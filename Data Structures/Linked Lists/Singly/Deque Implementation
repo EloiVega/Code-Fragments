@@ -1,0 +1,122 @@
+#include <iostream>
+using namespace std;
+
+
+class linkedList{
+	private:
+	//Node Specification , {value (int), next (node*)}
+		class node{
+			public:
+			//constructor
+				node(){ value = 0; }
+				
+			//Value Setters and Getters
+				void setValue(int number){ value = number;}
+				int getValue(){ return value; }
+				
+			//Next node's Setters and Getters
+				void setNext (node* newNode){ next = newNode; }
+				node* getNext(){ return next; }
+				
+			private:
+			//Node's variables
+				int value;
+				node *next;
+		};
+	//End of Node Specifications
+	
+	//List's variables
+		node *head = new node(); //First node in the list
+		node *tail = new node(); //Last node in the list
+		int sz;	//Size of the list
+
+	public:
+	//constructor
+		linkedList(){
+			sz = 0;
+		}
+	
+	//Display list in the following form: Xi, for 0 <= i < sz
+	//The function will end the line after displaying all elements
+		void display_list(){
+			node *temp = head;
+			while(temp){
+				cout << temp->getValue() << " ";
+				temp = temp->getNext();
+			}
+			puts("");
+		}
+		
+	//pushing a node to the back of the list
+		void push_back(int value){
+			node *temp = new node();
+			
+			temp -> setValue(value);
+			
+			configureList(temp, sz+1);
+		}
+	
+	//Popping the last element in the back off the list
+		void pop_back(){
+			node *temp = head;
+			while(temp->getNext() != tail)
+				temp = temp->getNext();
+				
+			tail = temp;
+			tail->setNext(NULL);
+		}
+		
+	//Pushing a node to the front of the list
+		void push_front(int value){
+			node *temp = new node();
+			
+			temp->setValue(value);
+			temp->setNext(head);
+			
+			head = temp;
+		}
+		
+	//Popping the first element in the front of the list
+		void pop_front(){
+			head = head->getNext();
+		}
+	
+	//Configuring the head and tail of the list
+		void configureList(node *newNode, int newSize){
+			if(sz == 0){
+				head = newNode;
+			} else if(sz == 1){
+				head->setNext(newNode);
+				tail = newNode;
+			} else{
+				tail->setNext(newNode);
+				tail = newNode;
+			}
+			
+			// cout << head << endl << tail << endl;
+			sz = newSize;
+		}
+};
+
+int main() {
+	
+	linkedList li;
+	
+	li.push_back(1);		//list : 1
+	li.push_back(51);		//list : 1 51
+	li.push_back(500);		//list : 1 51 500
+	
+	li.push_front(100);		//list : 100 1 51 500
+	li.push_front(5);		//list : 5 100 1 51 500
+	
+	li.pop_back();			//list : 5 100 1 51
+	li.pop_front();			//list : 100 1 51
+	
+	li.push_back(5);		//list : 100 1 51 5
+	li.push_front(6);		//list : 6 100 1 51 5
+	
+	li.display_list();
+	return 0;
+}
+
+// output: 6 100 1 51 5
