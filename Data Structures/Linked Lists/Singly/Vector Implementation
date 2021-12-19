@@ -61,9 +61,8 @@ class linkedList{
 			node *temp = head;
 			while(temp->getNext() != tail)
 				temp = temp->getNext();
-				
-			tail = temp;
-			tail->setNext(NULL);
+			
+			configureList(temp, sz--);
 		}
 	
 	//Configuring the head and tail of the list
